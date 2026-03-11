@@ -1,0 +1,12 @@
+{
+  "extends": "astro/tsconfigs/base",
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "allowJs": true
+  },
+  "exclude": [
+    "server.mjs",
+    "node_modules",
+    "dist"
+  ]
+}

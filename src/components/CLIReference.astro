@@ -1,0 +1,203 @@
+---
+const groups = [
+  {
+    label: 'Core',
+    icon: '⚓',
+    commands: [
+      { cmd: 'atlas status', desc: 'Show server status, DB path, git info, active session' },
+      { cmd: 'atlas init [--force] [--no-detect] [--no-enrich]', desc: 'Initialize project: creates .atlas/, auto-detects stack, bootstraps from git history' },
+      { cmd: 'atlas rebuild', desc: 'Force full reindex + enrichment. Use after rebase or branch switch' },
+      { cmd: 'atlas shell', desc: 'Interactive REPL for Atlas commands' },
+    ],
+  },
+  {
+    label: 'Docs & Playbooks',
+    icon: '📜',
+    commands: [
+      { cmd: 'atlas docs list [--tag T] [--search Q]', desc: 'List all docs, optionally filtered by tag or search query' },
+      { cmd: 'atlas docs show NAME [--phase N]', desc: 'Show doc content, optionally a specific phase' },
+      { cmd: 'atlas docs search QUERY', desc: 'Full-text search across all docs' },
+      { cmd: 'atlas run NAME [--start-phase N]', desc: 'Start a playbook from the beginning or a specific phase' },
+      { cmd: 'atlas next', desc: 'Advance to the next playbook phase' },
+      { cmd: 'atlas phase NAME N', desc: 'Jump to a specific phase in a named playbook' },
+    ],
+  },
+  {
+    label: 'Session & State',
+    icon: '🗺',
+    commands: [
+      { cmd: 'atlas session start [--mode M]', desc: 'Start a coding session and load active context' },
+      { cmd: 'atlas session end ID --summary "..."', desc: 'End a session with a summary' },
+      { cmd: 'atlas state read SECTION', desc: 'Read state: decisions | progress | active_context | tech_stack | all' },
+      { cmd: 'atlas state write SECTION', desc: 'Create entry (--title, --task, --key, --value)' },
+      { cmd: 'atlas state update SECTION ID', desc: 'Update entry (--status, --title)' },
+      { cmd: 'atlas state delete SECTION ID', desc: 'Delete a state entry' },
+    ],
+  },
+  {
+    label: 'Sync & Git',
+    icon: '🧭',
+    commands: [
+      { cmd: 'atlas sync [--from REF] [--to REF]', desc: 'Sync state from git changes between two refs' },
+      { cmd: 'atlas diff [--from REF] [--to REF]', desc: 'Preview change summary without applying' },
+      { cmd: 'atlas hooks install', desc: 'Install git hooks for auto-sync on commit/checkout/merge' },
+      { cmd: 'atlas hooks status', desc: 'Show installed hook status' },
+      { cmd: 'atlas hooks uninstall', desc: 'Remove installed git hooks' },
+    ],
+  },
+  {
+    label: 'Dependency Analysis',
+    icon: '🔗',
+    commands: [
+      { cmd: 'atlas blast FILE [--depth N]', desc: 'Blast radius: what breaks if this file changes' },
+      { cmd: 'atlas deps FILE [--depth N]', desc: 'Show what this file depends on (imports chain)' },
+      { cmd: 'atlas orphans [--dir PATH]', desc: 'Find files with no imports (dead code candidates)' },
+    ],
+  },
+  {
+    label: 'Code Intelligence',
+    icon: '🔭',
+    commands: [
+      { cmd: 'atlas intel symbols [--query Q]', desc: 'Search functions, classes, and types project-wide' },
+      { cmd: 'atlas intel exports FILE', desc: 'Show all exports from a specific file' },
+      { cmd: 'atlas intel types [--query Q]', desc: 'Show interfaces and enums' },
+    ],
+  },
+  {
+    label: 'Health & Surface',
+    icon: '🏴‍☠️',
+    commands: [
+      { cmd: 'atlas health hotspots', desc: 'Risky files: high change frequency × high dependency count' },
+      { cmd: 'atlas health coverage', desc: 'Files without corresponding tests' },
+      { cmd: 'atlas health security', desc: 'Auth, crypto, payment, and input handler surface' },
+      { cmd: 'atlas health errors', desc: 'Anti-patterns in recent changes' },
+      { cmd: 'atlas surface routes [--filter P]', desc: 'Extract API routes from the codebase' },
+      { cmd: 'atlas surface schema [--filter N]', desc: 'Extract DB schema (Prisma, Drizzle, SQL)' },
+      { cmd: 'atlas surface env', desc: 'Extract environment variables and their usage' },
+      { cmd: 'atlas surface contracts', desc: 'Extract API contracts: OpenAPI, GraphQL, tRPC' },
+      { cmd: 'atlas surface impact [--filter N]', desc: 'Route↔table impact graph with 2-hop analysis' },
+      { cmd: 'atlas surface domain [--filter N]', desc: 'Business domain map: roles, auth patterns, entities' },
+    ],
+  },
+  {
+    label: 'Project Map',
+    icon: '🗺',
+    commands: [
+      { cmd: 'atlas map workspace', desc: 'Monorepo package structure and boundaries' },
+      { cmd: 'atlas map graph', desc: 'Cross-package dependency graph' },
+      { cmd: 'atlas map velocity', desc: 'Commit patterns and activity by directory' },
+      { cmd: 'atlas map explain', desc: 'Plain-English summary of recent diff' },
+      { cmd: 'atlas test-patterns', desc: 'Analyze test framework conventions and naming patterns' },
+    ],
+  },
+];
+
+const flags = [
+  { flag: '--json', desc: 'Output in JSON format (for scripting)' },
+  { flag: '--table', desc: 'Output in table format' },
+  { flag: '--plain', desc: 'Plain text output (default)' },
+  { flag: '--no-color', desc: 'Disable colored output' },
+  { flag: '-q, --quiet', desc: 'Minimal output' },
+  { flag: '-d, --docs-dir', desc: 'Override docs directory' },
+  { flag: '-s, --state-dir', desc: 'Override state directory' },
+  { flag: '-p, --project-root', desc: 'Override project root' },
+  { flag: '-l, --log-level', desc: 'Set log level: debug | info | warn | error | silent' },
+];
+---
+
+<section id="cli" class="relative py-28 px-6" style="background:rgba(13,17,51,0.4);">
+  <div class="max-w-5xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-14 fade-in">
+      <div class="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded border"
+        style="border-color:rgba(212,168,83,0.25);background:rgba(212,168,83,0.05);">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d4a853" stroke-width="2">
+          <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+        </svg>
+        <span class="font-heading text-xs tracking-widest uppercase" style="color:#d4a853;">CLI Reference</span>
+      </div>
+      <h2 class="section-title text-4xl md:text-5xl mb-4 gold-text">Command the Atlas</h2>
+      <p class="font-body text-lg max-w-xl mx-auto" style="color:#c4b69a;">
+        Every capability available from the command line. Expand a group to explore.
+      </p>
+    </div>
+
+    <!-- Command groups -->
+    <div class="space-y-3 fade-in">
+      {groups.map((g) => (
+        <details class="atlas-card overflow-hidden group">
+          <summary class="flex items-center justify-between px-6 py-4 cursor-pointer select-none"
+            style="list-style:none;">
+            <div class="flex items-center gap-3">
+              <span class="text-lg" aria-hidden="true">{g.icon}</span>
+              <span class="font-heading font-bold text-base" style="color:#f5e6c8;">{g.label}</span>
+              <span class="font-heading text-xs px-2 py-0.5 rounded"
+                style="color:rgba(212,168,83,0.7);background:rgba(212,168,83,0.08);">
+                {g.commands.length} commands
+              </span>
+            </div>
+            <svg class="summary-arrow w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#d4a853" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </summary>
+
+          <div class="border-t" style="border-color:rgba(212,168,83,0.1);">
+            <table class="w-full text-sm">
+              <tbody>
+                {g.commands.map((c, i) => (
+                  <tr
+                    class="transition-colors"
+                    style={`border-bottom:${i < g.commands.length - 1 ? '1px solid rgba(30,45,92,0.4)' : 'none'};`}
+                    onmouseover="this.style.background='rgba(212,168,83,0.03)'"
+                    onmouseout="this.style.background='transparent'"
+                  >
+                    <td class="px-6 py-3 font-mono text-xs align-top" style="color:#2dd4bf;width:45%;white-space:nowrap;">
+                      {c.cmd}
+                    </td>
+                    <td class="px-6 py-3 font-body text-sm" style="color:#9a8f7a;">{c.desc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <!-- Global flags -->
+    <div class="mt-10 fade-in">
+      <div class="atlas-card overflow-hidden">
+        <div class="px-6 py-4 border-b" style="border-color:rgba(212,168,83,0.12);background:rgba(212,168,83,0.04);">
+          <h3 class="font-heading font-bold text-base" style="color:#d4a853;">Global Flags</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <tbody>
+              {flags.map((f, i) => (
+                <tr
+                  class="transition-colors"
+                  style={`border-bottom:${i < flags.length - 1 ? '1px solid rgba(30,45,92,0.3)' : 'none'};`}
+                  onmouseover="this.style.background='rgba(212,168,83,0.03)'"
+                  onmouseout="this.style.background='transparent'"
+                >
+                  <td class="px-6 py-2.5 font-mono text-xs" style="color:#2dd4bf;white-space:nowrap;width:35%;">{f.flag}</td>
+                  <td class="px-6 py-2.5 font-body text-sm" style="color:#9a8f7a;">{f.desc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trail divider -->
+  <div class="trail-divider mt-20">
+    {Array.from({length: 15}).map((_, i) => (
+      <>
+        <span class="trail-dot" style={`animation-delay:${i * 0.15}s;`}/>
+        {i < 14 && <span class="trail-line"/>}
+      </>
+    ))}
+  </div>
+</section>

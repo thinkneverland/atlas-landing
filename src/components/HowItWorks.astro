@@ -1,0 +1,161 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'Install the Atlas',
+    subtitle: 'Drop anchor',
+    description: 'Install globally and configure your IDE. AtlasMCP registers itself as an MCP server — Windsurf, Cursor, VS Code, and Zed all supported.',
+    code: 'npm install -g @thinkneverland/atlas-mcp',
+    codeLabel: 'Install',
+    detail: 'Use the global binary — not npx. Native modules require a stable install path.',
+  },
+  {
+    number: '02',
+    title: 'Chart the Territory',
+    subtitle: 'Run atlas init',
+    description: 'Auto-detects your tech stack, scans git history, bootstraps architectural decisions, and extracts project conventions from config files.',
+    code: 'atlas init',
+    codeLabel: 'Initialize',
+    detail: 'Works with any language: TypeScript, Python, Go, Rust, PHP, Ruby, Java, and more.',
+  },
+  {
+    number: '03',
+    title: 'Navigate with AI',
+    subtitle: 'Set sail',
+    description: 'Your AI calls start_session, loads full context, and begins navigating. Every decision recorded. Every change synced. Context that compounds.',
+    code: 'atlas status',
+    codeLabel: 'Verify',
+    detail: 'Add .windsurfrules or .cursorrules to make Atlas tools automatic on every session.',
+  },
+];
+---
+
+<section id="how-it-works" class="relative py-28 px-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-20 fade-in">
+      <div class="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded border"
+        style="border-color:rgba(45,212,191,0.25);background:rgba(45,212,191,0.05);">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span class="font-heading text-xs tracking-widest uppercase" style="color:#2dd4bf;">The Expedition</span>
+      </div>
+      <h2 class="section-title text-4xl md:text-5xl mb-4 gold-text">Chart Your Course</h2>
+      <p class="font-body text-lg max-w-xl mx-auto" style="color:#c4b69a;">
+        Three steps from installation to a fully navigated, AI-powered codebase.
+      </p>
+    </div>
+
+    <!-- Steps -->
+    <div class="relative">
+      <!-- Connecting trail (desktop) -->
+      <div class="hidden lg:block absolute top-20 left-0 right-0 h-px"
+        style="background:linear-gradient(90deg,transparent,rgba(212,168,83,0.2),rgba(212,168,83,0.4),rgba(212,168,83,0.2),transparent);">
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+        {steps.map((step, i) => (
+          <div class="relative fade-in" style={`animation-delay:${i * 0.15}s;`}>
+            <!-- Step number badge -->
+            <div class="flex justify-center lg:justify-start mb-8 lg:mb-10">
+              <div
+                class="relative w-16 h-16 rounded-full flex items-center justify-center border-2 font-display font-black text-xl"
+                style="border-color:#d4a853;background:rgba(13,17,51,0.9);color:#d4a853;box-shadow:0 0 24px rgba(212,168,83,0.2);"
+              >
+                {step.number}
+                <!-- Rotating ring decoration -->
+                <svg
+                  class="absolute inset-0 w-full h-full"
+                  viewBox="0 0 64 64"
+                  style="animation:compass-slow-spin 20s linear infinite;"
+                >
+                  <circle cx="32" cy="32" r="30" fill="none" stroke="rgba(212,168,83,0.2)" stroke-width="0.5" stroke-dasharray="3 6"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Card -->
+            <div class="atlas-card p-7 h-full text-center lg:text-left">
+              <span class="font-heading text-xs tracking-widest uppercase mb-2 block" style="color:#2dd4bf;">
+                {step.subtitle}
+              </span>
+              <h3 class="font-heading font-bold text-xl mb-3" style="color:#f5e6c8;">
+                {step.title}
+              </h3>
+              <p class="font-body text-sm leading-relaxed mb-5" style="color:#9a8f7a;">
+                {step.description}
+              </p>
+
+              <!-- Command snippet -->
+              <div class="terminal text-left mb-4">
+                <div class="terminal-bar">
+                  <span class="terminal-dot" style="background:#c0392b;"></span>
+                  <span class="terminal-dot" style="background:#d4a853;"></span>
+                  <span class="terminal-dot" style="background:#2dd4bf;"></span>
+                  <span class="ml-2 font-mono text-xs" style="color:rgba(196,182,154,0.4);">{step.codeLabel}</span>
+                </div>
+                <div class="px-4 py-3 font-mono text-sm flex items-center gap-2">
+                  <span style="color:#d4a853;">$</span>
+                  <span style="color:#2dd4bf;">{step.code}</span>
+                </div>
+              </div>
+
+              <p class="font-body text-xs italic" style="color:#6b6254;">
+                {step.detail}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Getting started workflow table -->
+    <div class="mt-20 fade-in">
+      <div class="atlas-card overflow-hidden">
+        <div class="px-6 py-4 border-b" style="border-color:rgba(212,168,83,0.15);background:rgba(212,168,83,0.05);">
+          <h3 class="font-heading font-bold text-base" style="color:#d4a853;">Full Getting Started Workflow</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(212,168,83,0.1);">
+                <th class="px-6 py-3 text-left font-heading text-xs tracking-widest uppercase" style="color:#d4a853;">Step</th>
+                <th class="px-6 py-3 text-left font-heading text-xs tracking-widest uppercase" style="color:#d4a853;">What Happens</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ['1. atlas init', 'Creates .atlas/ folders, auto-detects and seeds tech stack from config files'],
+                ['2. Add IDE rules', 'Create .windsurfrules or .cursorrules so the AI uses Atlas tools proactively'],
+                ['3. First AI session', 'AI calls start_session + get_project_context → loads seeded context automatically'],
+                ['4. Enrich (optional)', 'AI reads codebase and adds richer context: project description, conventions, directory mapping'],
+                ['5. Use playbooks', 'Run atlas run <playbook> for guided workflows, or use tools directly'],
+              ].map(([step, desc], i) => (
+                <tr
+                  class="transition-colors"
+                  style="border-bottom:1px solid rgba(30,45,92,0.5);"
+                  onmouseover={`this.style.background='rgba(212,168,83,0.04)'`}
+                  onmouseout={`this.style.background='transparent'`}
+                >
+                  <td class="px-6 py-3 font-mono" style="color:#2dd4bf;white-space:nowrap;">{step}</td>
+                  <td class="px-6 py-3 font-body" style="color:#c4b69a;">{desc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trail divider -->
+  <div class="trail-divider mt-20">
+    {Array.from({length: 15}).map((_, i) => (
+      <>
+        <span class="trail-dot" style={`animation-delay:${i * 0.15}s;`}/>
+        {i < 14 && <span class="trail-line"/>}
+      </>
+    ))}
+  </div>
+</section>

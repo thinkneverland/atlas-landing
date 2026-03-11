@@ -1,0 +1,160 @@
+---
+const envVars = [
+  { name: 'ATLAS_DOCS_DIR', default: '.atlas', desc: 'Docs directory (relative to project root)' },
+  { name: 'ATLAS_STATE_DIR', default: '~/.atlas', desc: 'Global state DB directory' },
+  { name: 'ATLAS_PROJECT_ROOT', default: 'auto-detect', desc: 'Project root (git root → cwd)' },
+  { name: 'ATLAS_LOG_LEVEL', default: 'info', desc: 'Log level: debug | info | warn | error | silent' },
+  { name: 'ATLAS_DB_NAME', default: 'state.db', desc: 'SQLite database filename' },
+  { name: 'ATLAS_WATCH', default: 'true', desc: 'Enable file watching for live doc updates' },
+  { name: 'ATLAS_MAX_DEPTH', default: '3', desc: 'Default blast-radius analysis depth' },
+  { name: 'ATLAS_DB_URL', default: '—', desc: 'Database connection URL (enables DB introspection tools)' },
+  { name: 'ATLAS_DB_CLIENT', default: 'auto-detect', desc: 'Knex client: pg | mysql2 | mssql | better-sqlite3' },
+  { name: 'ATLAS_DB_ALLOW_QUERY', default: 'false', desc: 'Enable run_readonly_query tool' },
+];
+---
+
+<section id="configuration" class="relative py-28 px-6" style="background:rgba(13,17,51,0.4);">
+  <div class="max-w-5xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-14 fade-in">
+      <div class="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded border"
+        style="border-color:rgba(212,168,83,0.25);background:rgba(212,168,83,0.05);">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d4a853" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+        </svg>
+        <span class="font-heading text-xs tracking-widest uppercase" style="color:#d4a853;">Configuration</span>
+      </div>
+      <h2 class="section-title text-4xl md:text-5xl mb-4 gold-text">Chart the Settings</h2>
+      <p class="font-body text-lg max-w-xl mx-auto" style="color:#c4b69a;">
+        Configure via CLI flags, environment variables, or a config file. Highest priority wins.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 fade-in">
+      <!-- Priority order -->
+      <div>
+        <h3 class="font-heading font-bold text-base mb-4" style="color:#d4a853;">Priority Order</h3>
+        <div class="atlas-card p-5 space-y-2">
+          {[
+            { label: 'CLI flags', note: 'highest priority', color: '#f0c165' },
+            { label: 'Environment variables', note: '', color: '#d4a853' },
+            { label: '.atlasrc.json', note: '', color: '#c8922a' },
+            { label: 'package.json ["atlas"]', note: '', color: '#a07830' },
+            { label: 'Defaults', note: 'lowest priority', color: '#7a5c22' },
+          ].map((item, i) => (
+            <div class="flex items-center gap-3 py-2 border-b last:border-0"
+              style="border-color:rgba(212,168,83,0.08);">
+              <span class="font-display font-black text-lg w-6 text-center flex-shrink-0"
+                style={`color:${item.color};opacity:0.5;`}>{i + 1}</span>
+              <span class="font-mono text-sm flex-1" style={`color:${item.color};`}>{item.label}</span>
+              {item.note && (
+                <span class="font-body text-xs italic" style="color:rgba(156,138,122,0.5);">{item.note}</span>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <!-- .atlasrc.json example -->
+        <h3 class="font-heading font-bold text-base mt-6 mb-4" style="color:#d4a853;">.atlasrc.json</h3>
+        <div class="atlas-card overflow-hidden">
+          <div class="flex items-center justify-between px-5 py-2 border-b"
+            style="border-color:rgba(212,168,83,0.1);background:rgba(8,12,32,0.5);">
+            <span class="font-mono text-xs" style="color:rgba(196,182,154,0.4);">.atlasrc.json</span>
+          </div>
+          <pre class="m-0 rounded-none border-0 text-sm" style="background:transparent;"><code style="color:#f5e6c8;">{`{
+  "docsDir": ".atlas",
+  "stateDir": "~/.atlas",
+  "logLevel": "info",
+  "watch": true,
+  "maxDepth": 3
+}`}</code></pre>
+        </div>
+
+        <!-- package.json example -->
+        <h3 class="font-heading font-bold text-base mt-6 mb-4" style="color:#d4a853;">package.json</h3>
+        <div class="atlas-card overflow-hidden">
+          <div class="px-5 py-2 border-b"
+            style="border-color:rgba(212,168,83,0.1);background:rgba(8,12,32,0.5);">
+            <span class="font-mono text-xs" style="color:rgba(196,182,154,0.4);">package.json</span>
+          </div>
+          <pre class="m-0 rounded-none border-0 text-sm" style="background:transparent;"><code style="color:#f5e6c8;">{`{
+  "atlas": {
+    "docsDir": ".docs",
+    "logLevel": "debug"
+  }
+}`}</code></pre>
+        </div>
+      </div>
+
+      <!-- Environment variables -->
+      <div>
+        <h3 class="font-heading font-bold text-base mb-4" style="color:#d4a853;">Environment Variables</h3>
+        <div class="atlas-card overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs">
+              <thead>
+                <tr style="border-bottom:1px solid rgba(212,168,83,0.15);">
+                  <th class="px-4 py-3 text-left font-heading tracking-widest uppercase" style="color:rgba(212,168,83,0.7);">Variable</th>
+                  <th class="px-4 py-3 text-left font-heading tracking-widest uppercase" style="color:rgba(212,168,83,0.7);">Default</th>
+                  <th class="px-4 py-3 text-left font-heading tracking-widest uppercase hidden sm:table-cell" style="color:rgba(212,168,83,0.7);">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {envVars.map((v, i) => (
+                  <tr
+                    class="transition-colors"
+                    style={`border-bottom:${i < envVars.length - 1 ? '1px solid rgba(30,45,92,0.35)' : 'none'};`}
+                    onmouseover="this.style.background='rgba(212,168,83,0.03)'"
+                    onmouseout="this.style.background='transparent'"
+                  >
+                    <td class="px-4 py-2.5 font-mono align-top" style="color:#2dd4bf;white-space:nowrap;">{v.name}</td>
+                    <td class="px-4 py-2.5 font-mono align-top" style="color:rgba(212,168,83,0.6);white-space:nowrap;">{v.default}</td>
+                    <td class="px-4 py-2.5 font-body hidden sm:table-cell" style="color:#9a8f7a;font-size:0.75rem;">{v.desc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <h3 class="font-heading font-bold text-base mt-6 mb-4" style="color:#d4a853;">Common Issues</h3>
+        <div class="space-y-2">
+          {[
+            { symptom: '"Docs directory not found"', fix: 'Run atlas init to create .atlas/' },
+            { symptom: 'Tech stack empty', fix: 'Seed manually: atlas state write tech_stack --key "framework" --value "Next.js"' },
+            { symptom: 'MCP server won\'t connect via npx', fix: 'Use global install: "command": "atlas-mcp" not "command": "npx"' },
+            { symptom: 'Stale context after rebase', fix: 'Run atlas rebuild to refresh all indexes' },
+          ].map((item) => (
+            <details class="atlas-card overflow-hidden">
+              <summary class="flex items-center justify-between px-5 py-3 cursor-pointer select-none">
+                <div class="flex items-center gap-2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                  <span class="font-mono text-xs" style="color:#f5e6c8;">{item.symptom}</span>
+                </div>
+                <svg class="summary-arrow w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="#d4a853" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </summary>
+              <div class="px-5 pb-3 pt-1 border-t" style="border-color:rgba(212,168,83,0.08);">
+                <p class="font-body text-xs" style="color:#9a8f7a;">{item.fix}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trail divider -->
+  <div class="trail-divider mt-20">
+    {Array.from({length: 15}).map((_, i) => (
+      <>
+        <span class="trail-dot" style={`animation-delay:${i * 0.15}s;`}/>
+        {i < 14 && <span class="trail-line"/>}
+      </>
+    ))}
+  </div>
+</section>

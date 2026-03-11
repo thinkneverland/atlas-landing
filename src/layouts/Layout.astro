@@ -1,0 +1,122 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "AtlasMCP — Chart Your Codebase",
+  description = "Universal MCP server for AI-assisted development. Works with any project, any IDE, any language. Docs, playbooks, session memory, dependency analysis, and more.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://atlas.thinkneverland.com" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Star field canvas -->
+    <canvas id="starfield" aria-hidden="true"></canvas>
+
+    <!-- Ambient glow overlays -->
+    <div
+      aria-hidden="true"
+      style="position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212,168,83,0.07) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 80% 80%, rgba(45,212,191,0.04) 0%, transparent 50%);"
+    >
+    </div>
+
+    <div style="position:relative;z-index:1;">
+      <slot />
+    </div>
+
+    <script>
+      // Star field
+      const canvas = document.getElementById("starfield") as HTMLCanvasElement;
+      const ctx = canvas.getContext("2d")!;
+
+      function drawStars() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const count = Math.floor((canvas.width * canvas.height) / 8000);
+        for (let i = 0; i < count; i++) {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height;
+          const r = Math.random() * 1.2 + 0.2;
+          const opacity = Math.random() * 0.5 + 0.1;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+          ctx.fill();
+        }
+
+        // A few gold-tinted stars
+        for (let i = 0; i < 15; i++) {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height;
+          const r = Math.random() * 1.5 + 0.5;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(212, 168, 83, ${Math.random() * 0.4 + 0.1})`;
+          ctx.fill();
+        }
+      }
+
+      drawStars();
+      let resizeTimer: ReturnType<typeof setTimeout>;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(drawStars, 150);
+      });
+
+      // Nav scroll effect
+      const nav = document.getElementById("main-nav");
+      if (nav) {
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 40) {
+            nav.classList.add("nav-scrolled");
+          } else {
+            nav.classList.remove("nav-scrolled");
+          }
+        });
+      }
+
+      // Fade-in on scroll
+      const fadeEls = document.querySelectorAll(".fade-in");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      fadeEls.forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .nav-scrolled {
+    background-color: rgba(8, 12, 32, 0.92) !important;
+    border-bottom-color: rgba(212, 168, 83, 0.2) !important;
+  }
+</style>

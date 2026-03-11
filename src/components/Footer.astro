@@ -1,0 +1,152 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="relative pt-20 pb-12 px-6" style="background:rgba(5,8,18,0.8);border-top:1px solid rgba(212,168,83,0.1);">
+  <!-- Top decorative compass -->
+  <div class="flex justify-center mb-12" aria-hidden="true">
+    <svg width="80" height="80" viewBox="0 0 400 400" opacity="0.25">
+      <circle cx="200" cy="200" r="195" fill="none" stroke="#d4a853" stroke-width="0.5" stroke-dasharray="4 8"/>
+      <circle cx="200" cy="200" r="130" fill="none" stroke="#d4a853" stroke-width="0.3"/>
+      <circle cx="200" cy="200" r="50" fill="none" stroke="#d4a853" stroke-width="0.5"/>
+      <polygon points="200,8 188,155 200,172 212,155" fill="#d4a853"/>
+      <polygon points="200,392 188,245 200,228 212,245" fill="#a07830" opacity="0.7"/>
+      <polygon points="392,200 245,188 228,200 245,212" fill="#a07830" opacity="0.7"/>
+      <polygon points="8,200 155,188 172,200 155,212" fill="#a07830" opacity="0.7"/>
+      <circle cx="200" cy="200" r="8" fill="#d4a853"/>
+      <circle cx="200" cy="200" r="4" fill="#050812"/>
+    </svg>
+  </div>
+
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+      <!-- Brand column -->
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-3 mb-4">
+          <svg width="28" height="28" viewBox="0 0 32 32">
+            <circle cx="16" cy="16" r="15.5" fill="#0d1133" stroke="#d4a853" stroke-width="1"/>
+            <circle cx="16" cy="16" r="10" fill="none" stroke="rgba(212,168,83,0.3)" stroke-width="0.5"/>
+            <polygon points="16,3 14.5,13 16,14.5 17.5,13" fill="#d4a853"/>
+            <polygon points="16,29 14.5,19 16,17.5 17.5,19" fill="#a07830"/>
+            <polygon points="29,16 19,14.5 17.5,16 19,17.5" fill="#a07830"/>
+            <polygon points="3,16 13,14.5 14.5,16 13,17.5" fill="#a07830"/>
+            <circle cx="16" cy="16" r="2" fill="#d4a853"/>
+          </svg>
+          <span class="font-display font-bold text-xl" style="color:#d4a853;">AtlasMCP</span>
+        </div>
+        <p class="font-body text-sm leading-relaxed mb-5 max-w-sm" style="color:#9a8f7a;">
+          Universal MCP server for AI-assisted development. Works with any project, any IDE, any language.
+        </p>
+        <!-- Badges -->
+        <div class="flex flex-wrap gap-2">
+          <a
+            href="https://github.com/thinkneverland/atlas-mcp/blob/main/LICENSE"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded border font-heading text-xs tracking-wider"
+            style="border-color:rgba(212,168,83,0.2);color:rgba(196,182,154,0.6);background:rgba(212,168,83,0.04);"
+          >
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            </svg>
+            MIT License
+          </a>
+          <a
+            href="https://www.npmjs.com/package/@thinkneverland/atlas-mcp"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded border font-heading text-xs tracking-wider"
+            style="border-color:rgba(212,168,83,0.2);color:rgba(196,182,154,0.6);background:rgba(212,168,83,0.04);"
+          >
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 1.336h-1.33V8.667h-1.336v6.664H8.003v-8h2.663v8zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v6.667z"/>
+            </svg>
+            v2.5 on npm
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div>
+        <h4 class="font-heading font-bold text-xs tracking-widest uppercase mb-4" style="color:#d4a853;">Navigate</h4>
+        <ul class="space-y-2.5">
+          {[
+            ['Features', '#features'],
+            ['Install', '#install'],
+            ['IDE Setup', '#ide-setup'],
+            ['Card-O-Matic', '#card-o-matic'],
+            ['CLI Reference', '#cli'],
+            ['MCP Tools', '#tools'],
+            ['Configuration', '#configuration'],
+          ].map(([label, href]) => (
+            <li>
+              <a
+                href={href}
+                class="font-body text-sm transition-colors"
+                style="color:#9a8f7a;"
+                onmouseover="this.style.color='#d4a853'"
+                onmouseout="this.style.color='#9a8f7a'"
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- External links -->
+      <div>
+        <h4 class="font-heading font-bold text-xs tracking-widest uppercase mb-4" style="color:#d4a853;">Resources</h4>
+        <ul class="space-y-2.5">
+          {[
+            ['GitHub Repository', 'https://github.com/thinkneverland/atlas-mcp'],
+            ['npm Package', 'https://www.npmjs.com/package/@thinkneverland/atlas-mcp'],
+            ['Report an Issue', 'https://github.com/thinkneverland/atlas-mcp/issues'],
+            ['Card-O-Matic', 'https://card-o-matic.thinkneverland.com'],
+            ['Think Neverland', 'https://thinkneverland.com'],
+          ].map(([label, href]) => (
+            <li>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-body text-sm transition-colors inline-flex items-center gap-1.5"
+                style="color:#9a8f7a;"
+                onmouseover="this.style.color='#d4a853'"
+                onmouseout="this.style.color='#9a8f7a'"
+              >
+                {label}
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity="0.5">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4"
+      style="border-color:rgba(212,168,83,0.08);">
+      <p class="font-body text-xs" style="color:rgba(156,138,122,0.5);">
+        © {year} Think Neverland. Released under the MIT License.
+      </p>
+      <div class="flex items-center gap-2">
+        <span class="font-body text-xs" style="color:rgba(156,138,122,0.3);">Built by</span>
+        <a
+          href="https://thinkneverland.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-heading text-xs tracking-wider transition-colors"
+          style="color:rgba(212,168,83,0.5);"
+          onmouseover="this.style.color='#d4a853'"
+          onmouseout="this.style.color='rgba(212,168,83,0.5)'"
+        >
+          Think Neverland
+        </a>
+        <span class="font-body text-xs" style="color:rgba(156,138,122,0.3);">· Second star to the right.</span>
+      </div>
+    </div>
+  </div>
+</footer>

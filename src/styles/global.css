@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ============================================================
+   CSS VARIABLES
+   ============================================================ */
+:root {
+  --deep-navy: #080c20;
+  --navy: #0d1133;
+  --navy-light: #162045;
+  --navy-border: #1e2d5c;
+  --gold: #d4a853;
+  --gold-bright: #f0c165;
+  --gold-dark: #a07830;
+  --teal: #2dd4bf;
+  --parchment: #f5e6c8;
+  --parchment-dim: #c4b69a;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--deep-navy);
+  color: var(--parchment-dim);
+  font-family: 'Lora', Georgia, serif;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   STAR FIELD CANVAS
+   ============================================================ */
+#starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ============================================================
+   GOLD GRADIENT TEXT
+   ============================================================ */
+.gold-text {
+  background: linear-gradient(135deg, #a07830 0%, #d4a853 35%, #f0c165 55%, #d4a853 75%, #a07830 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gold-shimmer 4s ease infinite;
+}
+
+@keyframes gold-shimmer {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ============================================================
+   COMPASS ROSE
+   ============================================================ */
+.compass-rose-outer {
+  animation: compass-slow-spin 120s linear infinite;
+  transform-origin: center;
+}
+
+.compass-rose-inner {
+  animation: compass-slow-spin-reverse 80s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes compass-slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes compass-slow-spin-reverse {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* ============================================================
+   SECTION DIVIDERS — TREASURE MAP DOTTED TRAIL
+   ============================================================ */
+.trail-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 2rem 0;
+}
+
+.trail-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.3;
+}
+
+.trail-dot:nth-child(3n) {
+  opacity: 0.6;
+}
+
+.trail-dot:nth-child(5) {
+  opacity: 1;
+  width: 8px;
+  height: 8px;
+}
+
+.trail-line {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 168, 83, 0.4), transparent);
+}
+
+/* ============================================================
+   CODE BLOCKS
+   ============================================================ */
+pre {
+  background: rgba(8, 12, 32, 0.9) !important;
+  border: 1px solid rgba(212, 168, 83, 0.2);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.875em;
+  color: var(--teal);
+  background: rgba(45, 212, 191, 0.08);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  color: var(--parchment);
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav-blur {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.atlas-card {
+  background: linear-gradient(135deg, rgba(22, 32, 69, 0.7) 0%, rgba(13, 17, 51, 0.85) 100%);
+  border: 1px solid rgba(212, 168, 83, 0.15);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(212, 168, 83, 0.1);
+}
+
+.atlas-card:hover {
+  border-color: rgba(212, 168, 83, 0.4);
+  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 168, 83, 0.2), inset 0 1px 0 rgba(212, 168, 83, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   MAP GRID OVERLAY
+   ============================================================ */
+.map-grid {
+  background-image:
+    linear-gradient(rgba(212, 168, 83, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 168, 83, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ============================================================
+   SCROLL BAR
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--deep-navy);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 168, 83, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 168, 83, 0.6);
+}
+
+/* ============================================================
+   SELECTION
+   ============================================================ */
+::selection {
+  background: rgba(212, 168, 83, 0.25);
+  color: var(--parchment);
+}
+
+/* ============================================================
+   SECTION TITLES
+   ============================================================ */
+.section-title {
+  font-family: 'Cinzel', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   DETAILS / SUMMARY (CLI Reference)
+   ============================================================ */
+details summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] .summary-arrow {
+  transform: rotate(90deg);
+}
+
+.summary-arrow {
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-btn {
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-family: 'Cinzel', Georgia, serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   FADE IN ON SCROLL
+   ============================================================ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   TERMINAL BLOCK
+   ============================================================ */
+.terminal {
+  background: #050812;
+  border: 1px solid rgba(212, 168, 83, 0.25);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.terminal-bar {
+  background: rgba(212, 168, 83, 0.08);
+  border-bottom: 1px solid rgba(212, 168, 83, 0.15);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* ============================================================
+   RADIAL GLOW BACKGROUNDS
+   ============================================================ */
+.glow-gold {
+  box-shadow: 0 0 60px rgba(212, 168, 83, 0.15), 0 0 120px rgba(212, 168, 83, 0.05);
+}
+
+.glow-teal {
+  box-shadow: 0 0 60px rgba(45, 212, 191, 0.1);
+}
+
+/* ============================================================
+   FLOATING ANIMATION
+   ============================================================ */
+.float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
