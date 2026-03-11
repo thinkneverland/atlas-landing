@@ -56,7 +56,7 @@ const steps = [
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
         {steps.map((step, i) => (
-          <div class="relative fade-in" style={`animation-delay:${i * 0.15}s;`}>
+          <div class="relative fade-in flex flex-col" style={`animation-delay:${i * 0.15}s;`}>
             <!-- Step number badge -->
             <div class="flex justify-center lg:justify-start mb-8 lg:mb-10">
               <div
@@ -76,7 +76,7 @@ const steps = [
             </div>
 
             <!-- Card -->
-            <div class="atlas-card p-7 h-full text-center lg:text-left">
+            <div class="atlas-card p-7 flex-1 text-center lg:text-left">
               <span class="font-heading text-xs tracking-widest uppercase mb-2 block" style="color:#2dd4bf;">
                 {step.subtitle}
               </span>
