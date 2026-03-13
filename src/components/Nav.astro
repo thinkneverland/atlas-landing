@@ -7,7 +7,7 @@
   class="fixed top-0 left-0 right-0 z-50 border-b border-transparent transition-all duration-300 nav-blur"
   style="background-color: rgba(8,12,32,0);"
 >
-  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between relative">
     <!-- Logo -->
     <a href="#" class="flex items-center gap-3 group">
       <svg
@@ -45,8 +45,8 @@
       >
     </a>
 
-    <!-- Desktop nav links -->
-    <nav class="hidden md:flex items-center gap-8">
+    <!-- Desktop nav links — centered to page, not siblings -->
+    <nav class="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
       {
         [
           ["Features", "#features"],
