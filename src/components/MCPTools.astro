@@ -32,7 +32,7 @@ const toolGroups = [
     label: 'Dependency Analysis',
     color: '#2dd4bf',
     tools: [
-      { name: 'analyze_deps', desc: 'type: "blast" (what breaks), "imports" (what it depends on), "orphans" (dead code)' },
+      { name: 'analyze_deps', desc: 'type: "blast" (what breaks), "imports" (what it depends on), "orphans" (dead code), "dependents" (what depends on it)' },
     ],
   },
   {
@@ -41,9 +41,9 @@ const toolGroups = [
     tools: [
       { name: 'get_code_intel', desc: 'type: "symbols" (project-wide), "exports" (single file), "types" (interfaces/enums)' },
       { name: 'get_project_surface', desc: 'type: "routes", "schema", "env", "contracts", "impact" (route↔table), "domain" (roles/auth/entities)' },
-      { name: 'get_project_health', desc: 'type: "hotspots" (risky files), "coverage" (untested), "security" (sensitive), "errors" (anti-patterns)' },
+      { name: 'get_project_health', desc: 'type: "hotspots" (risky files), "coverage" (untested), "security" (sensitive), "errors" (anti-patterns), "risky_untested", "drift", "lint"' },
       { name: 'get_test_patterns', desc: 'Test framework, naming conventions, describe blocks, setup patterns' },
-      { name: 'get_project_map', desc: 'type: "workspace" (monorepo), "graph" (cross-package deps), "velocity" (commits), "explain" (diff summary)' },
+      { name: 'get_project_map', desc: 'type: "workspace" (monorepo), "graph" (cross-package deps), "velocity" (commits), "explain" (diff summary), "cross_project" (multi-repo)' },
     ],
   },
   {
